@@ -115,13 +115,13 @@ plot1 <- oospiders +
                                   size = 65, hjust = .5,
                                   color = horror_colors("brightblood")),
         plot.subtitle = element_text(family = "Nosferatu", 
-                                     size = 18, hjust = .5,
+                                     size = 16, hjust = .5,
                                      color = horror_colors("vintageblood")),
         plot.caption = element_text(color = "white", family = "Quiet Horror Story",
                                     size = 20),
         strip.text = element_blank()) +
   labs(title = "The Last Word On The Left",
-       subtitle = "Top 10 most prevalent words by distribution",
+       subtitle = "Top 10 most prevalent plot words by distribution type",
        y = "Word Prevalence\n(n appearances/n plots)",
        caption= "Data: IMDb | Viz: @phillynerd")
 
