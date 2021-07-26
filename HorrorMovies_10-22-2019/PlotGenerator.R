@@ -46,9 +46,9 @@ max_length <- 40
 text <- 
   plots %>% 
   pull(plot) %>%
-  #str_remove_all(pattern = "[0-9]") %>% 
+  str_remove_all(pattern = "[0-9]") %>% 
   str_c(collapse = " ") %>%
-  
+    
   tokenize_characters(lowercase = FALSE, strip_non_alphanum = FALSE, simplify = TRUE)
 
 print(sprintf("Corpus length: %d", length(text)))
@@ -113,7 +113,7 @@ fit_model <- function(model, vectors, epochs = 1){
   NULL
 }
 
-#More functions for the modeling
+ore functions for the modeling
 
 #This one generates a phrase from a model, text, set of characters, and
 #parameters like the maximum length of phrase and diversity, i.e. how WILD we
@@ -204,10 +204,10 @@ iterate_model <- function(model, text, chars, max_length,
 
 model <- create_model(chars, max_length)
 
-iterate_model(model, text, chars, max_length, diversity, vectors, 50)
+iterate_model(model, text, chars, max_length, diversity, vectors, 405
 ## NULL
 
-#Checking results for different values of diversity####
+#Checking results## for different values of diversity##
 result <- data_frame(diversity = rep(c(0.2, 0.4, 0.6), 20)) %>%
   mutate(phrase = map_chr(diversity,
                           ~ generate_phrase(model, text, chars, max_length, .x))) %>%
