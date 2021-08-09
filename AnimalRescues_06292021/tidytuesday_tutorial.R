@@ -32,7 +32,7 @@ str(tuesdata)
 animal_rescues_raw <- tuesdata$animal_rescues
 
 #So let's do some really basic exploration.  When is this data from?
-str(animal_rescues$date_time_of_call)
+str(animal_rescues_raw$date_time_of_call)
 #so this is a character currently. which means i need to convert it to a date.
 
 animal_rescues_clean <- animal_rescues_raw %>%
@@ -42,7 +42,7 @@ animal_rescues_clean %>%
   summarise(min(date_time_of_call),
             max(date_time_of_call))
 
-#well clearly we have some bad values here.  Lets do a count by years
+#Lets do a count by years
 animal_rescues_clean %>%
   count(cal_year)
 
@@ -68,19 +68,23 @@ animal_rescues_clean %>%
 #ok what kinds of animals are in this dataset
 animal_rescues_clean %>%
   count(animal_group_parent) %>%
+  #ordering by the $ value with reorder()
   ggplot(aes(x = reorder(animal_group_parent, n), y = n)) +
   geom_bar(stat = "identity") +
   coord_flip()
 
 #what animals are the most expensive to deal with?
 animal_rescues_clean %>%
-  #cleanup
+  #cleanup - making animal names all caps; changing incidental costs from chr
+  # to numeric so we can add
   mutate(animal_group_parent = str_to_title(animal_group_parent),
          incident_notional_cost = as.numeric(incident_notional_cost)) %>%
   #grouping
   group_by(animal_group_parent) %>%
+  #creating sums (sum) and counts (n()) over the grouped variable
   summarize(n_events = n(),
             total_cost = sum(incident_notional_cost, na.rm = T)) %>%
+  #calculating the avg
   mutate(avg_cost_per_event = total_cost/n_events) %>%
   ggplot(aes(x = reorder(animal_group_parent, avg_cost_per_event), y = avg_cost_per_event)) +
   geom_bar(stat = "identity") +
